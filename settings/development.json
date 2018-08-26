@@ -1,0 +1,5 @@
+{
+    "PrivateKeyPath": "C:\\Users\\jerome\\Documents\\MicroEntreprise\\Go\\src\\hello\\settings\\keys\\private_key",
+    "PublicKeyPath": "C:\\Users\\jerome\\Documents\\MicroEntreprise\\Go\\src\\hello\\settings\\keys\\public_key.pub",
+    "JWTExpirationDelta": 72
+  }
