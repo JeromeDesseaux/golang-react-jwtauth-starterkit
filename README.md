@@ -19,7 +19,7 @@ This project intends to provide a "ready to go" project starter.
 `go get ./...`
 
 3. Install front-end dependencies 
-``yarn install``
+``cd webapp && yarn install``
 
 ## Usage 
 
