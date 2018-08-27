@@ -2,8 +2,6 @@ package main
 
 import (
 	"hello/routers"
-	"log"
-	"net/http"
 	"os"
 )
 
@@ -30,7 +28,7 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 
-	r := routers.InitRoutes()
+	e := routers.InitRoutes()
 
 	if port == "" {
 		port = "8000"
@@ -55,7 +53,5 @@ func main() {
 
 	r.Use(cors.New(config))*/
 
-	if err := http.ListenAndServe(":"+port, r); err != nil {
-		log.Fatal(err)
-	}
+	e.Logger.Fatal(e.Start(":" + port))
 }

@@ -22,19 +22,13 @@ class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+
         let rawData = {
             username: this.state.username,
             password: this.state.password
         }
 
-        // for (const pair of data) {
-        //     console.log(pair[0], pair[1])
-        //     // data.append(pair[0], pair[1]);
-        // }
-
-        console.log(rawData);
-
-        var formData  = new FormData();
+        let formData  = new FormData();
 
         for(var name in rawData) {
             formData.append(name, rawData[name]);
@@ -48,7 +42,6 @@ class Login extends React.Component {
         .then(response => {
             //this.props.userHasAuthenticated(true);
             setToken(response.token)
-            // localStorage.setItem("access_token", response.token);
             this.props.history.push("/");
             console.log(response);  
         });

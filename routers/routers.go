@@ -2,14 +2,34 @@ package routers
 
 import (
 	"hello/middlewares"
-	"time"
 
-	"github.com/gin-gonic/gin"
-	"github.com/itsjamie/gin-cors"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
-func InitRoutes() *gin.Engine {
-	r := gin.Default()
+func setCORS(e *echo.Echo, dev bool) {
+	if dev {
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"*"},
+			AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
+		}))
+	} else {
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"https://localhost:3000"},
+			AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
+		}))
+	}
+}
+
+func InitRoutes() *echo.Echo {
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	// TODO: Add a settings manager
+	setCORS(e, true)
+
+	/*r := gin.Default()
 	r.Use(cors.Middleware(cors.Config{
 		Origins:         "*",
 		Methods:         "GET, PUT, POST, DELETE, OPTIONS",
@@ -20,9 +40,9 @@ func InitRoutes() *gin.Engine {
 		ValidateHeaders: false,
 	}))
 	// r.Use(gin.Logger())
-	// r.Use(gin.Recovery())
+	// r.Use(gin.Recovery())*/
 	authMiddleware := middlewares.GetAuthMiddleware()
-	SetHelloRoutes(r.Group("/restricted"), authMiddleware)
-	SetAuthenticationRoutes(r.Group("/auth"), authMiddleware)
-	return r
+	SetHelloRoutes(e.Group("/restricted"), authMiddleware)
+	SetAuthenticationRoutes(e.Group("/auth"), authMiddleware)
+	return e
 }

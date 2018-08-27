@@ -1,17 +1,15 @@
 package controllers
 
 import (
-	"fmt"
+	"net/http"
 
-	jwt "github.com/appleboy/gin-jwt"
-	"github.com/gin-gonic/gin"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo"
 )
 
-func HelloHandler(c *gin.Context) {
-	claims := jwt.ExtractClaims(c)
-	fmt.Println(claims)
-	c.JSON(200, gin.H{
-		"userID": claims["id"],
-		"text":   "Hello World.",
-	})
+func HelloHandler(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	name := claims["name"].(string)
+	return c.String(http.StatusOK, "Welcome "+name+"!")
 }

@@ -23,8 +23,16 @@ function isTokenExpired(token) {
 export function isLoggedIn() {
     const idToken = localStorage.getItem(ACCESS_TOKEN_KEY);
     var res = !!idToken && !isTokenExpired(idToken);
-    console.log(res);
     return res;
+}
+
+export function getUserInfos() {
+    const idToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+    return decode(idToken)
+}
+
+export function deleteLocalStorage() {
+    localStorage.clear();
 }
 
 

@@ -1,40 +1,40 @@
 package controllers
 
-// import (
-// 	"encoding/json"
-// 	"fmt"
-// 	"hello/models"
-// 	"net/http"
-// )
+import (
+	"net/http"
+	"time"
 
-// func Login(w http.ResponseWriter, r *http.Request) {
-// 	requestUser := new(models.User)
-// 	decoder := json.NewDecoder(r.Body)
-// 	decoder.Decode(&requestUser)
+	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo"
+)
 
-// 	fmt.Println(requestUser.Password)
+func Login(c echo.Context) error {
+	username := c.FormValue("username")
+	password := c.FormValue("password")
 
-// 	responseStatus, token := services.Login(requestUser)
-// 	w.Header().Set("Content-Type", "application/json")
-// 	w.WriteHeader(responseStatus)
-// 	w.Write(token)
-// }
+	if username == "admin" && password == "admin" {
+		// Create token
+		token := jwt.New(jwt.SigningMethodHS256)
 
-// func RefreshToken(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-// 	requestUser := new(models.User)
-// 	decoder := json.NewDecoder(r.Body)
-// 	decoder.Decode(&requestUser)
+		//expire date
+		date := time.Now().Add(time.Hour * 72)
 
-// 	w.Header().Set("Content-Type", "application/json")
-// 	w.Write(services.RefreshToken(requestUser))
-// }
+		// Set claims
+		claims := token.Claims.(jwt.MapClaims)
+		claims["name"] = "Jon Snow"
+		claims["admin"] = true
+		claims["exp"] = date.Unix()
 
-// /*func Logout(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-//  err := services.Logout(r)
-//  w.Header().Set("Content-Type", "application/json")
-//  if err != nil {
-//   w.WriteHeader(http.StatusInternalServerError)
-//  } else {
-//   w.WriteHeader(http.StatusOK)
-//  }
-// }*/
+		// Generate encoded token and send it as response.
+		t, err := token.SignedString([]byte("secret"))
+		if err != nil {
+			return err
+		}
+
+		return c.JSON(http.StatusOK, map[string]string{
+			"token": t,
+		})
+	}
+
+	return echo.ErrUnauthorized
+}
