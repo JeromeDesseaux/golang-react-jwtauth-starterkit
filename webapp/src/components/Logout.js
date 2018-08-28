@@ -1,6 +1,7 @@
 import React from 'react';
 import withRouter from 'react-router-dom/withRouter';
 import {deleteLocalStorage} from "../core/Auth";
+import {DropdownItem} from 'reactstrap';
 
 
 class Logout extends React.Component {
@@ -17,7 +18,8 @@ class Logout extends React.Component {
   
     render () {
         return (
-            <a className="dropdown-item" onClick={this.logout}>Logout</a>
+          <DropdownItem onClick={this.logout}>{this.props.name}</DropdownItem>
+            // <a className="dropdown-item" onClick={this.logout}>Logout</a>
         )
     }
   }
