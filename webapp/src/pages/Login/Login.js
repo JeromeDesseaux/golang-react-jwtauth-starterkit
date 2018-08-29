@@ -1,5 +1,9 @@
 import React from "react";
 import {setToken} from "../../core/Auth";
+import { connect } from "react-redux";
+import { incrementAction, decreaseAction } from "../../actions";
+import store from '../../store';
+import { Form, FormGroup, Label, Input, Button, Row, Col } from "reactstrap";
 
 class Login extends React.Component {
     constructor() {
@@ -40,17 +44,15 @@ class Login extends React.Component {
             body: formData
         }).then(response => response.json())
         .then(response => {
-            //this.props.userHasAuthenticated(true);
             setToken(response.token)
             this.props.history.push("/");
-            console.log(response);  
+            store.dispatch(incrementAction("Connected Succesfully"));
         });
     }
     render() {
         return (
-            <div className="text-center">
-                <form className="form-signin" _lpchecked="1" onSubmit={this.handleSubmit}>
-                {/* <img className="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> */}
+            <div>
+                {/* <form className="form-signin" _lpchecked="1" onSubmit={this.handleSubmit}>
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label htmlFor="inputEmail" className="sr-only">Login</label>
                 <input id="inputEmail" className="form-control" placeholder="login" required="" autoFocus="" autoComplete="off" name="username" onChange={this.handleChange} value={this.state.username}></input>
@@ -61,12 +63,41 @@ class Login extends React.Component {
                 </div>
 
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </form>
+                </form> */}
+                <Row className="mx-auto">
+                    <Col sm="12" md="6" lg="6" className="col-md-auto mx-auto">
+                        <h1 className="mb-5 mt-5 text-center">Authentication</h1>
+                        <Form onSubmit={this.handleSubmit}>
+                            <FormGroup>
+                                <Label for="exampleEmail" hidden>
+                                    Login
+                                </Label>
+                                <Input name="username" id="exampleEmail" onChange={this.handleChange} value={this.state.username} placeholder="Login" required />
+                            </FormGroup>{" "}
+                            <FormGroup>
+                                <Label for="examplePassword" hidden>
+                                Password
+                                </Label>
+                                <Input type="password" name="password" id="examplePassword" placeholder="Password" required onChange={this.handleChange} value={this.state.password}/>
+                            </FormGroup>{" "}
+                            <Button type="submit">Submit</Button>
+                        </Form>
+                    </Col>
+                </Row>
             </div>
-  
-
         );
     };
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    state
+});
+
+
+
+const mapDispatchToProps = (dispatch) => ({
+    incrementAction: () => dispatch(incrementAction()),
+    decreaseAction: () => dispatch(decreaseAction())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

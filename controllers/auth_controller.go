@@ -22,6 +22,7 @@ func Login(c echo.Context) error {
 		// Set claims
 		claims := token.Claims.(jwt.MapClaims)
 		claims["name"] = "Jon Snow"
+		claims["avatar_url"] = "https://steamrep.com/steamimage/avatars/2b/2ba3473cc65d0d9d25be008aea2cda1af0569bf5_full.jpg"
 		claims["admin"] = true
 		claims["exp"] = date.Unix()
 

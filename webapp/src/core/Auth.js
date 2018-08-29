@@ -28,7 +28,11 @@ export function isLoggedIn() {
 
 export function getUserInfos() {
     const idToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-    return decode(idToken)
+    try{
+        return decode(idToken)
+    }catch(error){
+        return null;
+    }
 }
 
 export function deleteLocalStorage() {
