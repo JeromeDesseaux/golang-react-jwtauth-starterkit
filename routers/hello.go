@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"hello/controllers"
+	"github.com/JeromeDesseaux/golang-react-jwtauth-starterkit/controllers"
 
 	"github.com/labstack/echo"
 )

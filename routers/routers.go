@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"hello/middlewares"
+	"github.com/JeromeDesseaux/golang-react-jwtauth-starterkit/middlewares"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
