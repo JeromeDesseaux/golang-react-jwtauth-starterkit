@@ -29,18 +29,6 @@ func InitRoutes() *echo.Echo {
 	// TODO: Add a settings manager
 	setCORS(e, true)
 
-	/*r := gin.Default()
-	r.Use(cors.Middleware(cors.Config{
-		Origins:         "*",
-		Methods:         "GET, PUT, POST, DELETE, OPTIONS",
-		RequestHeaders:  "Origin, Authorization, Content-Type",
-		ExposedHeaders:  "",
-		MaxAge:          50 * time.Second,
-		Credentials:     true,
-		ValidateHeaders: false,
-	}))
-	// r.Use(gin.Logger())
-	// r.Use(gin.Recovery())*/
 	authMiddleware := middlewares.GetAuthMiddleware()
 	SetHelloRoutes(e.Group("/restricted"), authMiddleware)
 	SetAuthenticationRoutes(e.Group("/auth"), authMiddleware)
